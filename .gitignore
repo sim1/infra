@@ -1,0 +1,4 @@
+*secret.yml*
+*secret.yaml*
+.vscode/*
+**/.terraform/**

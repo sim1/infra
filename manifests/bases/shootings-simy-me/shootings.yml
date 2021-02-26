@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: shootings-simy-me
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: shootings 
+  annotations:
+    custom-hostname: shootings
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "2"
+        autoscaling.knative.dev/targetUtilizationPercentage: "80"
+    spec:
+      containerConcurrency: 50
+      containers:
+        - image: chauffer/shootings
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              cpu: 1000m
+              memory: 256Mi

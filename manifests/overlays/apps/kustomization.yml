@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../bases/cert-manager/default
+  - ../../bases/external-dns/default
+  - ../../bases/istio/default
+  - ../../bases/knative/default
+  - ../../bases/shootings-simy-me

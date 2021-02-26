@@ -1,0 +1,60 @@
+stages:
+  - lint
+  - plan
+  - apply
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+variables:
+  TF_PLUGIN_CACHE_DIR: .terraform-plugin-cache
+  TF_CLI_ARGS_plan: --parallelism=50
+  TF_CLI_ARGS_apply: --parallelism=50
+cache:
+  paths:
+    - .terraform
+    - .terraform-plugin-cache
+
+.tf_init: &tf_init
+  - mkdir -p $TF_PLUGIN_CACHE_DIR
+  - export AWS_ACCESS_KEY_ID=$TF_VAR_secret_scaleway_access_key
+  - export AWS_SECRET_ACCESS_KEY=$TF_VAR_secret_scaleway_secret_key
+  - terraform init
+
+tf-validate:
+  stage: lint
+  script:
+    - *tf_init
+    - terraform validate
+
+yaml-linting:
+  stage: lint
+  image: mikefarah/yq:3
+  script: |
+    for file in $(find manifests -type f | grep -e yml -e yaml); do
+      echo "$file ..."
+      yq validate $file
+      echo "$file ok"
+    done
+plan:
+  stage: plan
+  script:
+    - *tf_init
+    - terraform plan -out=plan.tfplan
+  artifacts:
+    name: plan
+    paths:
+      - plan.tfplan
+
+apply:
+  stage: apply
+  script:
+    - *tf_init
+    - terraform apply -input=false plan.tfplan
+  environment:
+    name: production
+  only:
+    - tags
+  dependencies:
+    - plan

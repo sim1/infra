@@ -1,0 +1,22 @@
+---
+apiVersion: operator.knative.dev/v1alpha1
+kind: KnativeServing
+metadata:
+  name: knative-serving
+  namespace: knative-serving
+spec:
+  config:
+    letsencrypt:
+      issuerRef: |
+        kind: ClusterIssuer
+        name: zerossl-prod
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-certmanager
+  namespace: knative-serving
+data:
+  issuerRef: |
+    kind: ClusterIssuer
+    name: zerossl-prod
