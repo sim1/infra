@@ -6,3 +6,4 @@ resources:
   - ../../bases/istio/default
   - ../../bases/knative/default
   - ../../bases/shootings-simy-me
+  - ../../bases/stream-simy-me
