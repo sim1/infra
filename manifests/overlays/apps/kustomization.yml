@@ -4,6 +4,7 @@ resources:
   - ../../bases/cert-manager/default
   - ../../bases/external-dns/default
   - ../../bases/sealed-secrets/default
+  - ../../bases/redis-operator/default
   - ../../bases/istio/default
   - ../../bases/knative/default
   # to move to fluxcd
