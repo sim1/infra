@@ -10,3 +10,4 @@ resources:
   # to move to fluxcd
   - ../../bases/shootings-simy-me
   - ../../bases/stream-simy-me
+  - ../../bases/super
