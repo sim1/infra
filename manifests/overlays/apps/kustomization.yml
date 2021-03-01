@@ -6,5 +6,5 @@ resources:
   - ../../bases/external-dns/default
   - ../../bases/sealed-secrets/default
   # - ../../bases/redis-operator/default
-  - ../../bases/istio/default
+  - ../../bases/linkerd/default
   - ../../bases/knative/default
