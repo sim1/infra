@@ -11,13 +11,13 @@ resource "scaleway_k8s_cluster" "sim" {
 
   autoscaler_config {
     disable_scale_down               = false
-    scale_down_delay_after_add       = "5m"
+    scale_down_delay_after_add       = "10m"
     estimator                        = "binpacking"
     expander                         = "random"
     ignore_daemonsets_utilization    = true
     balance_similar_node_groups      = true
     expendable_pods_priority_cutoff  = -5
-    scale_down_utilization_threshold = 0.7
+    scale_down_utilization_threshold = 0.8
     max_graceful_termination_sec     = 60
   }
   auto_upgrade {
@@ -35,6 +35,8 @@ resource "scaleway_k8s_pool" "sim" {
   zone        = "${var.scaleway_region}-1"
   autoscaling = true
   autohealing = true
+
+  container_runtime = "containerd"
 
   node_type = var.scaleway_kubernetes_cluster_node_type
   size      = var.scaleway_kubernetes_cluster_size
