@@ -8,4 +8,4 @@ resources:
   # - ../../bases/redis-operator/default
   - ../../bases/linkerd/default
   - ../../bases/knative/default
-  - ../../bases/ambassador/default
+  - ../../bases/kong/default
